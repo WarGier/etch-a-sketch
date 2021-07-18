@@ -1,0 +1,51 @@
+body {
+  background: rgb(95, 201, 154);
+  background: linear-gradient(
+    73deg,
+    rgba(95, 201, 154, 1) 18%,
+    rgba(0, 212, 255, 1) 85%
+  );
+}
+
+#main-heading {
+  font-family: sans-serif;
+  font-weight: 900;
+  font-size: 5.5em;
+  margin: 0;
+}
+
+.main {
+  text-align: center;
+}
+
+#newBtn {
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+  padding: 16px;
+  font-size: 18px;
+  border: none;
+}
+
+#newBtn:hover {
+  background-color: #222;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.grid-item {
+  background-color: white;
+  padding: 0px;
+  margin: 0px;
+  outline: 1px solid #ccc;
+}
+
+.selected {
+  background-color: aqua;
+}
