@@ -17,15 +17,32 @@ const container = document.querySelector('.container');
 container.style.width = GRIDWIDTH + 'px';
 
 const newBtn = document.querySelector('#newBtn');
+const colorBtns = document.querySelectorAll('.colorBtn');
+
 let gridItems = []
+let gridSize;
 let canDraw = false;
-let gridSize = Number(window.prompt('How big you want your grid?'));
+let lastPainted;
+let drawColor;
 
-
+askGridSize();
 createGrid(gridSize);
 
+function getColor(e){
+    drawColor = this.classList[1];
+}
+
+function askGridSize(){
+    gridSize = Number(window.prompt('How big you want your grid?'));
+    
+    if(gridSize >= 100){
+        do {
+            gridSize = Number(window.prompt('Can\'t be more than 100, try again.'));
+        } while (gridSize >= 100);
+    }
+}
+
 function createGrid(gridSize){
-    console.log(`gridsize je ${gridSize}`);
     let width = GRIDWIDTH/gridSize;
     let height = GRIDHEIGHT/gridSize;
 
@@ -35,6 +52,7 @@ function createGrid(gridSize){
             gridItem.classList.add('grid-item');
             gridItem.style.width = width + 'px';
             gridItem.style.height = height + 'px';
+            gridItem.classList.add(`${i}${j}`);
             gridItems.push(gridItem)
             container.appendChild(gridItem);        
         }
@@ -44,6 +62,10 @@ function createGrid(gridSize){
         item.addEventListener('mousedown', mouseDown);
         item.addEventListener('mouseup', mouseUp);
         item.addEventListener('mousemove', draw)
+    });
+
+    colorBtns.forEach((btn) => {    
+        btn.addEventListener('click', getColor);
     });
 }
 
@@ -56,23 +78,30 @@ function mouseUp(e){
 }
 
 function draw(e){
-    if(canDraw){
-        this.style.backgroundColor = 'salmon';
+    if(canDraw && lastPainted !== this.classList[1]){
+        // console.log(this);
+        // color
+        let color = Math.random() * (360 - 0) + 0;
+        // console.log(e);
+        if(drawColor && drawColor !== 'rainbow'){
+            this.style.backgroundColor = drawColor;
+        } else{
+            this.style.backgroundColor = `hsl(${color}, 100%, 50%)`;
+        }
+        
+        lastPainted = this.classList[1];
     }
 }
-
-
 
 function clearAndNewGrid(e){
     gridItems.forEach((item) => {
         container.removeChild(item);
     });
 
-    gridSize = Number(window.prompt('How big you want your grid?'));
+    askGridSize();
     gridItems = [];
     createGrid(gridSize);
 }
-
 
 newBtn.addEventListener('click', clearAndNewGrid);
 
